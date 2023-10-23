@@ -27,7 +27,7 @@ if pulls_req.status_code != 200:
 pulls_json = json.loads(pulls_req.text)
 
 # Follow the commits link and get the commit messages in order
-commits_url = pulls_json[0]["_links"]["commits"]["href"] 
+commits_url = pulls_json[0]["_links"]["commits"]["href"]
 commits_headers = {
     'User-Agent' : 'hexthedev'
 }
@@ -39,11 +39,7 @@ if commits_req.status_code != 200:
 
 commits_json = json.loads(commits_req.text)
 
-# Write the changelog
-commits_list = []
-for commit in commits_json:
-    commits_list.append(commit["commit"]["message"])
-
+commits_list = [commit["commit"]["message"] for commit in commits_json]
 with open(changelogPath, 'w') as f:
     f.truncate(0)
     for com in commits_list:
